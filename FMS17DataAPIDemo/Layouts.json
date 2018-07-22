@@ -1,0 +1,62 @@
+{
+	"Layouts": [
+		{
+			"key":"Contacts",
+			"value":"L40a_CONTACTS_Data_Entry_web"
+		},
+		{
+			"key":"Accounts",
+			"value":"L10a_ACCOUNTS_Data_Entry_web"
+		},
+		{
+			"key":"Assests",
+			"value":"L20a_ASSETS_Data_Entry_web"
+		},
+		{
+			"key":"Documents",
+			"value":"L70a_DOCUMENTS_Data_Entry_web"
+		},
+		{
+			"key":"Estimates",
+			"value":"L80a_ESTIMATES_Data_Entry_web"
+		},
+		{
+			"key":"Expenses",
+			"value":"L100a_EXSPENSES_Data_Entry_web"
+		},
+		{
+			"key":"Invoices",
+			"value":"L110a_INVOICES_Data_Entry_web"
+		},
+		{
+			"key":"Notes",
+			"value":"L130a_NOTES_Data_Entry_web"
+		},
+		{
+			"key":"Products",
+			"value":"L140a_PRODUCTS_Data_Entry_web"
+		},
+		{
+			"key":"Projects",
+			"value":"L150a_PROJECTS_Data_Entry_web"
+		},
+		{
+			"key":"Staff",
+			"value":"L160a_STAFF_Data_Entry_web"
+		},
+		{
+			"key":"Timesheets",
+			"value":"L170a_TIMESHEETS_Data_Entry_web"
+		},
+		{
+			"key":"Tasks",
+			"value":"L180a_TASKS_Data_Entry_web"
+		},
+		{
+			"key":"Preferences",
+			"value":"L4a_Preferences_web"
+		}
+		
+		]
+
+}
