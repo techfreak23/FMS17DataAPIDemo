@@ -8,6 +8,8 @@
 
 import UIKit
 
+var cellLabelText = ""
+
 class DashboardCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var textLabel: UILabel!
     

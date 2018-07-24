@@ -1,5 +1,9 @@
 {
 	"Layouts": [
+        {
+            "key":"Home",
+            "value":"L1a_Home_web"
+        },
 		{
 			"key":"Contacts",
 			"value":"L40a_CONTACTS_Data_Entry_web"

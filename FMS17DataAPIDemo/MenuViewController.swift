@@ -8,6 +8,8 @@
 
 import UIKit
 
+var jsonList: Dictionary<String, AnyObject>?
+var layouts: Array<Dictionary<String, AnyObject>>?
 var optionsList = ["Home", "Accounts", "Contacts", "Estimates", "Invoices", "Projects", "Products", "Other Modules..."]
 var otherModules = ["Preferences", "Staff", "Expenses", "Assets", "Timesheets", "Tasks", "Documents", "Calendar (not working)"]
 
@@ -16,6 +18,22 @@ class MenuViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let path = Bundle.main.path(forResource: "Layouts", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                if let jsonResult = jsonResult as? Dictionary<String, AnyObject> {
+                    jsonList = jsonResult
+                    layouts = jsonList!["Layouts"] as? Array<Dictionary<String, AnyObject>>
+                    print(jsonList as Any)
+                    print("Layouts from array: \(layouts as Any)")
+                }
+            } catch {
+                print("Something went wrong with loading the json file...")
+            }
+        }
+        
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
 
         self.title = "FMSP Options"
@@ -36,30 +54,34 @@ class MenuViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return optionsList.count
+        return layouts!.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let item = layouts![indexPath.row]
+        print("Cell item \(item as Any)")
         // Configure the cell...
         
-        cell.textLabel?.text = optionsList[indexPath.row]
+        cell.textLabel?.text = item["key"] as? String
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = layouts![indexPath.row]
         
-        if indexPath.row == optionsList.count - 1 {
-            print("Last cell was chosen...")
-            let alert = UIAlertController(title: "Alert", message: "You have selected \"Other Modules\"", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            optionsList.remove(at: indexPath.row)
-            optionsList.append(contentsOf: otherModules)
-            tableView.reloadData()
-        }
+        print("Did select the item \(item) at index path \(indexPath.row)")
+        
+//        if indexPath.row == optionsList.count - 1 {
+//            print("Last cell was chosen...")
+////            let alert = UIAlertController(title: "Alert", message: "You have selected \"Other Modules\"", preferredStyle: .alert)
+////            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+////            self.present(alert, animated: true, completion: nil)
+//            optionsList.remove(at: indexPath.row)
+//            optionsList.append(contentsOf: otherModules)
+//            tableView.reloadData()
+//        }
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
