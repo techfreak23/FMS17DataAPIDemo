@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let manager = APIManager.sharedManager
+        manager.loginToFile()
+        print("Manager from app delegate: \(manager)\nManager Description: \(manager.description)")
         return true
     }
 

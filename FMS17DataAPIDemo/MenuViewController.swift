@@ -70,18 +70,12 @@ class MenuViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = layouts![indexPath.row]
+        let selectedLayout = item["value"] as? String
         
         print("Did select the item \(item) at index path \(indexPath.row)")
-        
-//        if indexPath.row == optionsList.count - 1 {
-//            print("Last cell was chosen...")
-////            let alert = UIAlertController(title: "Alert", message: "You have selected \"Other Modules\"", preferredStyle: .alert)
-////            alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
-////            self.present(alert, animated: true, completion: nil)
-//            optionsList.remove(at: indexPath.row)
-//            optionsList.append(contentsOf: otherModules)
-//            tableView.reloadData()
-//        }
+        let manager = APIManager.sharedManager
+        manager.setCurrentLayout(layout: selectedLayout!)
+        print("Selected layout from API Manager: \(manager.currentSetLayout)")
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

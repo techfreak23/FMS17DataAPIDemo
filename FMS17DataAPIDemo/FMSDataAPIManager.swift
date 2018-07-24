@@ -11,7 +11,7 @@ import Alamofire
 
 public class APIManager {
     //MARK: - Private Properties
-    static let sharedManager = APIManager(host:"https://techfreak23.hopto.org/fmi/data/v1/databases", application:"FM_Starting_Point_602use")
+    static let sharedManager = APIManager(host:"https://techfreak23.hopto.org/fmi/data/v1/databases/", application:"FM_Starting_Point_602use")
     
     private var host: String = ""
     private var application: String = ""
@@ -21,11 +21,24 @@ public class APIManager {
     private var currentLayout: String = ""
     private var authenticated = false
     private var menuItems: Array = [Dictionary<String,String>]()
-    
+    private let sessionManager: SessionManager = {
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        let serverTrustPolicies: [String: ServerTrustPolicy] = [
+            "test.example.com": .pinCertificates(
+                certificates: ServerTrustPolicy.certificates(),
+                validateCertificateChain: false,
+                validateHost: false
+            ),
+            "techfreak23.hopto.org": .disableEvaluation
+        ]
+        
+        return SessionManager(configuration: configuration, serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
+    }()
     
     //MARK: - Designated Initializer
     private init(host:String, application:String) {
-        print("API Network Manager has been initialized...")
+        print("API Network Manager has been initialized with session manger \(sessionManager)")
         self.host = host
         self.application = application
         if let path = Bundle.main.path(forResource: "Layouts", ofType: "json") {
@@ -54,7 +67,78 @@ public class APIManager {
         return "The menu items are here: \(menuItems)"
     }
     
+    var currentSetLayout: String {
+        return currentLayout
+    }
+    
+    private func sendRequest(method:String, endpoint:String, params:[String:AnyObject]? = nil, headers:[String:String]? = nil ) {
+        switch method {
+        case "POST":
+            sessionManager.request(endpoint, method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {response in
+                debugPrint(response); print("Response from completion block: \(response)")})
+            
+        case "PATCH":
+            sessionManager.request(endpoint, method: .patch, parameters: params, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {response in
+                debugPrint(response); print("Response from the completion block PATCH: \(response)")
+            })
+        case "DELETE":
+            sessionManager.request(endpoint, method: .delete, parameters: params, encoding: JSONEncoding.default, headers: headers).responseJSON(completionHandler: {response in
+                debugPrint(response); print("Response from the completion block DELETE: \(response)")
+            })
+        default:
+            sessionManager.request(endpoint, method: .get, headers: headers).responseJSON(completionHandler: {response in
+                debugPrint(response); print("Response from the completion block GET: \(response)")
+            })
+        }
+    }
+    
     func setCurrentLayout(layout:String) {
         self.currentLayout = layout
     }
+    
+    func loginToFile() {
+        let loginPath = host + application + "/sessions"
+        let headers = [ "Content-Type": "application/json", "Authorization":"Bearer YXBpOlNwb2NrNDIw"]
+        
+        sendRequest(method: "POST", endpoint: loginPath, params: nil, headers: headers)
+    }
+    
+    func logoutOfFile(completion: (@escaping (DataResponse<Any>) -> Void) -> Void) {
+        
+    }
+    
+    func uploadToContainerField() {
+        
+    }
+    
+    func listRecords() {
+        
+    }
+    
+    func createRecord() {
+        
+    }
+    
+    func getRecord() {
+        
+    }
+    
+    func updateRecord() {
+        
+    }
+    
+    func removeRecord() {
+        
+    }
+    
+    func performFind() {
+        
+    }
+    
+    func setGlobalFields() {
+        
+    }
+    
+    
+    
 }

@@ -23,7 +23,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 //        }
         
         // myCollection?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "reuseIdentifier")
-        
+        let manager = APIManager.sharedManager
+        print("Current layout from View Controller: \(manager.currentSetLayout)")
         
         self.title = "Hello World"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: #selector(showMenu))
